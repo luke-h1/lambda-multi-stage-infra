@@ -29,8 +29,8 @@ under() {
 }
 
 usage() {
-    under usage 'call the Makefile directly: make dev
-      or invoke this file directly: ./make.sh dev'
+    under usage 'call the Makefile directly: make staging
+      or invoke this file directly: ./make.sh staging'
 }
 
 create-env() {
@@ -135,16 +135,16 @@ tf-destroy() {
         -auto-approve
 }
 
-# hello-dev
-hello-dev() {
+# hello-staging
+hello-staging() {
     cd "$dir/infra"
-    curl $(terraform output -raw hello_dev)
+    curl $(terraform output -raw hello_staging)
 }
 
-# hello-prod
-hello-prod() {
+# hello-live
+hello-live() {
     cd "$dir/infra"
-    curl $(terraform output -raw hello_prod)
+    curl $(terraform output -raw hello_live)
 }
 
 

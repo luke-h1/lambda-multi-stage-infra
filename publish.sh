@@ -13,7 +13,7 @@ PROJECT_NAME=lambda-multi-stage-infra
 dir="$(cd "$(dirname "$0")"; pwd)"
 cd "$dir"
 
-[[ $1 != 'prod' && $1 != 'dev' ]] && { echo 'usage: publish.sh <prod | dev>'; exit 1; } ;
+[[ $1 != 'live' && $1 != 'staging' ]] && { echo 'usage: publish.sh <live | staging>'; exit 1; } ;
 
 # root account id
 ACCOUNT_ID=$(aws sts get-caller-identity \
