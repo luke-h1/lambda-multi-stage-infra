@@ -15,10 +15,6 @@ PROJECT_NAME=lambda-multi-stage-infra
 dir="$(cd "$(dirname "$0")"; pwd)"
 cd "$dir"
 
-log()   { echo -e "\e[30;47m ${1^^} \e[0m ${@:2}"; }        # $1 uppercase background white
-info()  { echo -e "\e[48;5;28m ${1^^} \e[0m ${@:2}"; }      # $1 uppercase background green
-warn()  { echo -e "\e[48;5;202m ${1^^} \e[0m ${@:2}" >&2; } # $1 uppercase background orange
-error() { echo -e "\e[48;5;196m ${1^^} \e[0m ${@:2}" >&2; } # $1 uppercase background red
 
 # log $1 in underline then $@ then a newline
 under() {
@@ -40,10 +36,10 @@ create-env() {
         --profile $AWS_PROFILE \
         2>/dev/null)
         
-    [[ -n "$exists" ]] && { error abort user $PROJECT_NAME already exists; return; }
+    [[ -n "$exists" ]] && { echo abort user $PROJECT_NAME already exists; return; }
 
     # create a user named $PROJECT_NAME
-    log create iam user $PROJECT_NAME
+    echo create iam user $PROJECT_NAME
     aws iam create-user \
         --user-name $PROJECT_NAME \
         --profile $AWS_PROFILE \
@@ -61,10 +57,10 @@ create-env() {
         2>/dev/null)
 
     local AWS_ACCESS_KEY_ID=$(echo "$key" | jq '.AccessKeyId' --raw-output)
-    log AWS_ACCESS_KEY_ID $AWS_ACCESS_KEY_ID
+    echo AWS_ACCESS_KEY_ID $AWS_ACCESS_KEY_ID
     
     local AWS_SECRET_ACCESS_KEY=$(echo "$key" | jq '.SecretAccessKey' --raw-output)
-    log AWS_SECRET_ACCESS_KEY $AWS_SECRET_ACCESS_KEY
+    echo AWS_SECRET_ACCESS_KEY $AWS_SECRET_ACCESS_KEY
 
     # envsubst tips : https://unix.stackexchange.com/a/294400
     # create .env file
@@ -74,7 +70,7 @@ create-env() {
     export AWS_SECRET_ACCESS_KEY
     envsubst < .env.tmpl > .env
 
-    info created file .env
+    echo created file .env
 }
 
 # create env + terraform init
@@ -87,7 +83,7 @@ setup() {
 # delete env + terraform destroy
 delete() {
     # delete a user named $PROJECT_NAME
-    log delete iam user $PROJECT_NAME
+    echo delete iam user $PROJECT_NAME
 
     aws iam detach-user-policy \
         --user-name $PROJECT_NAME \
@@ -153,5 +149,5 @@ hello-live() {
 # compgen -A 'function' list all declared functions
 # https://stackoverflow.com/a/2627461
 FUNC=$(compgen -A 'function' | grep $1)
-[[ -n $FUNC ]] && { info execute $1; eval $1; } || usage;
+[[ -n $FUNC ]] && { echo execute $1; eval $1; } || usage;
 exit 0
