@@ -13,6 +13,7 @@ delete: # delete env + terraform destroy
 tf-init: # terraform init
 	./make.sh tf-init
 
+
 tf-validate: # terraform validate
 	./make.sh tf-validate
 
