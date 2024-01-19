@@ -51,7 +51,7 @@ resource "aws_lambda_permission" "permission_staging" {
 
   # The "/*/*" portion grants access from any method on any resource
   # within the API Gateway REST API.
-  source_arn = "${aws_api_gateway_rest_api.api_gateway.execution_arn}/*/GET/hello"
+  source_arn = "${aws_api_gateway_rest_api.api_gateway.execution_arn}/*/*"
 }
 
 resource "aws_lambda_permission" "permission_live" {
@@ -62,7 +62,7 @@ resource "aws_lambda_permission" "permission_live" {
 
   # The "/*/*" portion grants access from any method on any resource
   # within the API Gateway REST API.
-  source_arn = "${aws_api_gateway_rest_api.api_gateway.execution_arn}/*/GET/hello"
+  source_arn = "${aws_api_gateway_rest_api.api_gateway.execution_arn}/*/*"
 }
 
 resource "aws_cloudwatch_log_group" "convert_log_group" {
