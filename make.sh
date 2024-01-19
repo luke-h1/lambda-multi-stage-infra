@@ -113,37 +113,37 @@ delete() {
 }
 
 tf-init() {
-    cd "$dir/infra"
+    cd "$dir/terraform"
     terraform init
 }
 
 tf-validate() {
-    cd "$dir/infra"
+    cd "$dir/terraform"
     terraform fmt -recursive
 	terraform validate
 }
 
 tf-apply() {
-    cd "$dir/infra"
+    cd "$dir/terraform"
     terraform plan -out=terraform.plan
     terraform apply -auto-approve terraform.plan
 }
 
 tf-destroy() {
-    cd "$dir/infra"
+    cd "$dir/terraform"
     terraform destroy \
         -auto-approve
 }
 
 # hello-staging
 hello-staging() {
-    cd "$dir/infra"
+    cd "$dir/terraform"
     curl $(terraform output -raw hello_staging)
 }
 
 # hello-live
 hello-live() {
-    cd "$dir/infra"
+    cd "$dir/terraform"
     curl $(terraform output -raw hello_live)
 }
 
